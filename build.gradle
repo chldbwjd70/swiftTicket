@@ -1,0 +1,121 @@
+import java.util.jar.JarFile
+
+ext {
+    springBootVersion = "3.3.5"
+    springJdbcVersion = "6.1.3"
+    lombokVersion = "1.18.30"
+    queryDslVersion = "5.1.0"
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'jacoco'
+
+    sourceCompatibility = JavaVersion.VERSION_22
+    targetCompatibility = JavaVersion.VERSION_22
+
+    repositories {
+        mavenCentral()
+    }
+
+    // integration, functional test sourceSets 설정
+    sourceSets {
+        integrationTest {
+            compileClasspath += sourceSets.test.runtimeClasspath
+            runtimeClasspath += sourceSets.test.runtimeClasspath
+
+            groovy    {
+                srcDir file('src/integrationTest/groovy')
+            }
+            java    {
+                srcDir file('src/integrationTest/java')
+            }
+        }
+        functionalTest {
+            compileClasspath += sourceSets.test.runtimeClasspath
+            runtimeClasspath += sourceSets.test.runtimeClasspath
+            groovy    {
+                srcDir file('src/functionalTest/groovy')
+            }
+            java    {
+                srcDir file('src/functionalTest/java')
+            }
+        }
+    }
+
+    task integrationTest(type: Test) {
+        useJUnitPlatform()
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
+        classpath = sourceSets.integrationTest.runtimeClasspath
+
+        // integration test를 위한 spock report 위치
+        systemProperty 'com.athaydes.spockframework.report.outputDir', 'build/spock-integrationTest-reports'
+    }
+
+    task functionalTest(type: Test) {
+        useJUnitPlatform()
+        testClassesDirs = sourceSets.functionalTest.output.classesDirs
+        classpath = sourceSets.functionalTest.runtimeClasspath
+
+        // functional test를 위한 spock report 위치
+        systemProperty 'com.athaydes.spockframework.report.outputDir', 'build/spock-functionalTest-reports'
+    }
+
+    dependencies {
+        implementation group: 'com.google.guava', name: 'guava', version: '33.0.0-jre'
+
+        implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.5'
+        implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.12.5'
+
+        // Lombok
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+
+        // Spock test framework
+        testImplementation group: 'org.apache.groovy', name: 'groovy-all', version: '4.0.18', ext: 'pom'
+        implementation group: 'cglib', name: 'cglib-nodep', version: '3.3.0'
+        testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.4-M1-groovy-4.0'
+        testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.4-M1-groovy-4.0'
+        testImplementation group: 'com.athaydes', name: 'spock-reports', version: '2.5.1-groovy-4.0'
+        testImplementation group: 'org.objenesis', name: 'objenesis', version: '3.3'
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.2'
+        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.2'
+
+        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+        //SubnetUtils
+        implementation group: 'commons-net', name: 'commons-net', version: '3.8.0'
+    }
+
+    test {
+        useJUnitPlatform()
+        // unit test를 위한 spock report 위치
+        systemProperty 'com.athaydes.spockframework.report.outputDir', 'build/spock-unit-test-reports'
+    }
+
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
