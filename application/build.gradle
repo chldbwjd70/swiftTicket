@@ -1,12 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version "${springBootVersion}"
 }
-
-
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'war'
 
 repositories {
     mavenCentral()
@@ -14,55 +8,24 @@ repositories {
 
 dependencies {
     implementation(project(':domain'))
-    implementation(project(':infraModule'))
 
-    // implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '2.0.1'
 
-    // implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
-
-    // 이유는 모르겠지만 jpa 의존성이 domain-mgmt-portal에 이미 있는데 portal에도 넣어줘야 jpa 리파지토리를 사용할 수 있음.
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
     implementation group:'org.springframework.boot', name:'spring-boot-starter-data-mongodb', version: "${springBootVersion}"
 
-    // web application config
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+    // 개발 중 자동 리로드, 캐시 비활성화 등의 기능 제공
     implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: "${springBootVersion}"
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: "${springBootVersion}"
-
-    // ldap
-    // implementation group: 'org.springframework.ldap', name: 'spring-ldap-core', version: '3.2.2'
-
-    // freemarker
-    // implementation group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: "${springBootVersion}"
-
-    // jdbc
-    compileOnly group: 'org.springframework', name: 'spring-jdbc', version: "${springJdbcVersion}"
-
-    // security
-    implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
-    //JWT
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    // domain에 이미 있지만 , portal에도 추가해야 test에서 h2 사용 가능
+    // domain에 이미 있지만 , application 추가해야 test에서 h2 사용 가능
     testImplementation group: 'com.h2database', name: 'h2', version: '2.2.224'
-
-    // 파일 I/O 관련
-//    implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
-//    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
-//    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.0.0'
 
 
 }
 
-bootJar {
-    mainClass.set('com.example.SwiftTicketAPp')
-}
 
 test {
     useJUnitPlatform()

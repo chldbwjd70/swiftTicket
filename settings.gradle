@@ -1,5 +1,6 @@
 rootProject.name = 'swiftTicket'
 include 'domain'
 include 'application'
-include 'infraModule'
+include 'infraStructure'
+include 'interface'
 

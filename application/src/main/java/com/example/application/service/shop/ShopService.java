@@ -12,14 +12,12 @@ import java.util.Optional;
 public class ShopService {
     private final ShopRepository shopRepository;
 
-    public void save(Shop shop) {
+    public Long save(Shop shop) {
         shopRepository.save(shop);
+        return shop.getId();
+    }
 
-        Optional<Shop> byId = shopRepository.findById(shop.getId());
-        if (byId.isPresent()) {
-            System.out.println(byId.get().getShopName());
-            System.out.println(byId.get().getAddress());
-        }
-
+    public Optional<Shop> getId(Long id){
+        return shopRepository.findById(id);
     }
 }

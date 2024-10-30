@@ -1,4 +1,4 @@
-package com.example.application.controller.shop;
+package com.example.swiftTicket.controller.shop;
 
 import com.example.application.service.shop.ShopService;
 import com.example.domain.shop.Shop;

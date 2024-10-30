@@ -1,4 +1,4 @@
-package com.example.application.config;
+package com.example.infra.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -9,43 +9,43 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @Slf4j
-public class ApplicationPropertiesConfig {
+public class InfraPropertiesConfig {
 
     @Profile("develop")
-    @PropertySource({"classpath:application.properties"})
-    public static class ApplicationDevelopProperties  {
+    @PropertySource({"classpath:infraStructure.properties"})
+    public static class InfraStructureDevelopProperties  {
         @Bean
-        public static PropertySourcesPlaceholderConfigurer ApplicationPropertyConfig() {
+        public static PropertySourcesPlaceholderConfigurer InfraStructurePropertyConfig() {
             log.info("Current profile : develop");
             return new PropertySourcesPlaceholderConfigurer();
         }
     }
 
     @Profile("production")
-    @PropertySource({"classpath:application.properties"})
-    public static class ApplicationProductionProperties   {
+    @PropertySource({"classpath:infraStructure.properties"})
+    public static class InfraStructureProductionProperties   {
         @Bean
-        public static PropertySourcesPlaceholderConfigurer ApplicationPropertyConfig() {
+        public static PropertySourcesPlaceholderConfigurer InfraStructurePropertyConfig() {
             log.info("Current profile : production");
             return new PropertySourcesPlaceholderConfigurer();
         }
     }
 
     @Profile("local")
-    @PropertySource({"classpath:application.properties"})
-    public static class ApplicationLocalProperties  {
+    @PropertySource({"classpath:infraStructure.properties"})
+    public static class InfraStructureLocalProperties  {
         @Bean
-        public static PropertySourcesPlaceholderConfigurer ApplicationPropertyConfig() {
+        public static PropertySourcesPlaceholderConfigurer InfraStructurePropertyConfig() {
             log.info("Current profile : local");
             return new PropertySourcesPlaceholderConfigurer();
         }
     }
 
     @Profile("test")
-    @PropertySource({"classpath:application.properties", "classpath:application-test.properties"})
-    public static class ApplicationTestProperties  {
+    @PropertySource({"classpath:infraStructure.properties"})
+    public static class InfraStructureTestProperties  {
         @Bean
-        public static PropertySourcesPlaceholderConfigurer ApplicationPropertyConfig() {
+        public static PropertySourcesPlaceholderConfigurer InfraStructurePropertyConfig() {
             log.info("Current profile : test");
             return new PropertySourcesPlaceholderConfigurer();
         }

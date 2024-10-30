@@ -1,4 +1,4 @@
 package com.example.application;
 
-public interface WebBeanRoot {
+public interface ApplicationRoot {
 }

@@ -1,11 +1,10 @@
-package com.example.domain.config;
+package com.example.infra.config;
 
 import com.example.domain.Domains;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,31 +17,37 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableMongoRepositories(basePackageClasses = { Domains.class })
 @EnableJpaRepositories(basePackageClasses = { Domains.class })
-@EntityScan(basePackageClasses = { Domains.class })
-@ComponentScan(basePackageClasses = { DomainConfig.class })
-public class DomainRepositoryConfig {
+@ComponentScan(basePackageClasses = { InfraConfig.class })
+public class JpaRepositoryConfig {
 
 
-//    @Value("${portal.datasource.username:}")
+    @Value("${infra.datasource.username}")
     private String username;
-//    @Value("${portal.datasource.password:}")
+    @Value("${infra.datasource.password}")
     private String password;
-//    @Value("${portal.datasource.driverClassName}")
+    @Value("${infra.datasource.driverClassName}")
     private String driverClassName;
-//    @Value("${portal.datasource.url}")
+    @Value("${infra.datasource.url}")
     private String url;
 
+    private JpaProperties jpaProperties;
+
+    public JpaRepositoryConfig(JpaProperties jpaProperties) {
+        this.jpaProperties = jpaProperties;
+    }
 
     @Bean
     @Qualifier("hikariDataSource")
     public DataSource hikariDataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-
+        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setDriverClassName(driverClassName);
+        hikariConfig.setUsername(username);
+        hikariConfig.setPassword(password);
         return new HikariDataSource(hikariConfig);
     }
 
@@ -52,7 +57,7 @@ public class DomainRepositoryConfig {
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factory.setPackagesToScan("com.example.domain");
         factory.setDataSource(hikariDataSource());
-        factory.setJpaProperties(jpaProperties());
+        factory.setJpaProperties(jpaProperties.jpaProperties());
         return factory;
     }
 
@@ -68,14 +73,4 @@ public class DomainRepositoryConfig {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
-    // TODO. 이 부분도 profile 별로 관리할 수 있도록 하면 좋을거 같음
-    public Properties jpaProperties(){
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect","org.hibernate.dialect.MariaDBDialect");
-        properties.setProperty("hibernate.show_sql","false");
-        properties.setProperty("hibernate.format_sql","false");
-        properties.setProperty("hibernate.physical_naming_strategy","org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl");
-        properties.setProperty("hibernate.implicit-strategy","org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl");
-        return properties;
-    }
 }

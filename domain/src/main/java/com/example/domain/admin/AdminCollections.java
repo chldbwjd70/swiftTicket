@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Builder
 @Getter
-@Service
 @NoArgsConstructor
 @AllArgsConstructor
 //@Document(collection = "admin")

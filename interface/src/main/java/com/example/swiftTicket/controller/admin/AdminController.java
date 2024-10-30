@@ -1,4 +1,4 @@
-package com.example.application.controller.admin;
+package com.example.swiftTicket.controller.admin;
 
 import com.example.application.service.admin.AdminService;
 import com.example.domain.admin.AdminCollections;

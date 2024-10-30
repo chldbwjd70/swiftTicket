@@ -1,0 +1,31 @@
+dependencies {
+    implementation(project(':domain'))
+
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.3'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
+    implementation group:'org.springframework.boot', name:'spring-boot-starter-data-mongodb', version: "${springBootVersion}"
+
+    //Querydsl 추가
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
+
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.3.0'
+
+    // jdbc
+    compileOnly group: 'org.springframework', name: 'spring-jdbc', version: "${springJdbcVersion}"
+
+
+    // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.7.0'
+
+    // https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams
+    implementation group: 'org.apache.kafka', name: 'kafka-streams', version: '3.7.0'
+
+
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.0.0'
+
+}
+
