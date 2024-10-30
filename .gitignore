@@ -43,3 +43,5 @@ bin/
 .DS_Store
 # Project exclude paths
 /domain/src/main/generated/
+
+.env*
